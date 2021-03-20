@@ -11,6 +11,7 @@
 	</parent>
 
 	<properties>
+		<!--c'est juste un test-->
 		<mapsforge.version>0.13.0</mapsforge.version>
 	</properties>
 
@@ -85,3 +86,4 @@
 
 
 </project>
+<!--c'est la fin, j'espère que ça va marcher-->
