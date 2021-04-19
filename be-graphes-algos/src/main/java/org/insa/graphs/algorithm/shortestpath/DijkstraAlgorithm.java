@@ -1,8 +1,13 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+import org.insa.graphs.algorithm.AbstractSolution.Status;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Node;
+import org.insa.graphs.model.Path;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
@@ -23,7 +28,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         tab_label[data.getOrigin().getId()].cout=0;
         Label x;
-        boolean Trouve=false;
+        boolean Trouve=false;        
         //récupérer ce qu'on veut avec : data.getDestination()
         
         //Iterations
@@ -49,8 +54,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        		}
 	        	}
 	    }
-        solution ???
-        return solution;
+        // Create the final solution.
+	    //pb solution
+        solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(data.getGraph(), data.getDestination().getSuccessors()));
+	    
+	    
+	    return solution;
     }
 
 }
