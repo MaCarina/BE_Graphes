@@ -45,12 +45,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        	//extract min
 	        	x=Tas.deleteMin();
 	        	tab_label[x.sommet_courant.getId()].marque=true;
+	        	notifyNodeMarked(tab_label[x.sommet_courant.getId()].sommet_courant);
 	        	if (tab_label[data.getDestination().getId()].marque==true) {
 	        		Trouve=true;
 	        	}
 	        	for(Arc arc : tab_label[x.sommet_courant.getId()].sommet_courant.getSuccessors()) {
 	        		if(data.isAllowed(arc)) {
 		        		if(!tab_label[arc.getDestination().getId()].marque) {
+		        			notifyNodeReached(tab_label[x.sommet_courant.getId()].sommet_courant);
 		        			if (tab_label[arc.getDestination().getId()].cout > (tab_label[x.sommet_courant.getId()].cout+arc.getLength())) {
 		        				//arc.getDestination()==y
 			        			if(tab_label[arc.getDestination().getId()].cout!=Float.MAX_VALUE) {//déjà dans le tas
