@@ -30,6 +30,11 @@ public class Label implements Comparable<Label>{
 		this.arc_pere=arc_pere;
 	}
 	
+	public float setCost(float cost) {
+        this.cout=cost;
+        return this.cout;
+    }
+	
 	public float getCost() {
         return this.cout;
     }
@@ -37,5 +42,9 @@ public class Label implements Comparable<Label>{
 	public int compareTo(Label other) {
         return Float.compare(cout, other.cout);
     }
+	
+	public Arc getPere() {
+		return this.arc_pere;
+	}
 
 }

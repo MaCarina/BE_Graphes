@@ -22,15 +22,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label[] tab_label=new Label[data.getGraph().size()];
         BinaryHeap<Label> Tas=new BinaryHeap<Label>();
      
-        // Initialize array of predecessors.
+        // Notify observers about the first event (origin processed).
+        notifyOriginProcessed(data.getOrigin());
+        
+     // Initialize array of predecessors.
         Arc[] predecessorArcs = new Arc[data.getGraph().size()];
         
         //initialisation
         for(Node node : data.getGraph().getNodes()) {
         	tab_label[node.getId()]=new Label(node,false,Float.MAX_VALUE,null);
         }
+        Label Origin = tab_label[data.getOrigin().getId()];
+        Origin.setCost(0);
         tab_label[data.getOrigin().getId()].cout=0;
         Label x;
+        Tas.insert(Origin);
         boolean Trouve=false;        
         //récupérer ce qu'on veut avec : data.getDestination()
         
@@ -43,45 +49,48 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        		Trouve=true;
 	        	}
 	        	for(Arc arc : tab_label[x.sommet_courant.getId()].sommet_courant.getSuccessors()) {
-	        		predecessorArcs[arc.getDestination().getId()] = arc;
-	        		if(!tab_label[arc.getDestination().getId()].marque) {
-	        			if (tab_label[arc.getDestination().getId()].cout > (tab_label[x.sommet_courant.getId()].cout+arc.getLength())) {
-	        				//arc.getDestination()==y
-		        			if(tab_label[arc.getDestination().getId()].cout!=Float.MAX_VALUE) {//déjà dans le tas
-		        				//Update(y,Tas)
-		        				Tas.remove(tab_label[arc.getDestination().getId()]);
+	        		if(data.isAllowed(arc)) {
+		        		if(!tab_label[arc.getDestination().getId()].marque) {
+		        			if (tab_label[arc.getDestination().getId()].cout > (tab_label[x.sommet_courant.getId()].cout+arc.getLength())) {
+		        				//arc.getDestination()==y
+			        			if(tab_label[arc.getDestination().getId()].cout!=Float.MAX_VALUE) {//déjà dans le tas
+			        				//Update(y,Tas)
+			        				Tas.remove(tab_label[arc.getDestination().getId()]);
+			        			}
+			        			tab_label[arc.getDestination().getId()].cout = tab_label[x.sommet_courant.getId()].cout+arc.getLength();
+			        			Tas.insert(tab_label[arc.getDestination().getId()]);
+			        			predecessorArcs[arc.getDestination().getId()] = arc;
 		        			}
-		        			tab_label[arc.getDestination().getId()].cout = tab_label[x.sommet_courant.getId()].cout+arc.getLength();
-		        			Tas.insert(tab_label[arc.getDestination().getId()]);
-	        			}
+		        		}
 	        		}
 	        	}
 	    }
         // Create the final solution.
-	    //pb solution
 	 
 	    // Destination has no predecessor, the solution is infeasible...
         if (predecessorArcs[data.getDestination().getId()] == null) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
         else {
+        	// The destination has been found, notify the observers.
+            notifyDestinationReached(data.getDestination());
+            
             // Create the path from the array of predecessors...
             ArrayList<Arc> arcs = new ArrayList<>();
             Arc arc = predecessorArcs[data.getDestination().getId()];
             while (arc != null) {
-                arcs.add(arc);
+            	arcs.add(arc);
                 arc = predecessorArcs[arc.getOrigin().getId()];
             }
-
+            
             // Reverse the path...
             Collections.reverse(arcs);
 
             // Create the final solution.
             solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(data.getGraph(), arcs));
         }
-	    
-	    
+        
 	    return solution;
+	    
     }
-
 }
