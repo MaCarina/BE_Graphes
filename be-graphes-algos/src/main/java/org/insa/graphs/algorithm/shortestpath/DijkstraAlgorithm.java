@@ -39,17 +39,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Tas.insert(Origin);
         boolean Trouve=false;        
         //récupérer ce qu'on veut avec : data.getDestination()
-        
+        //int nb_succ = 0;
         //Iterations
 	    while(Trouve==false && !Tas.isEmpty()) {
 	        	//extract min
 	        	x=Tas.deleteMin();
 	        	tab_label[x.sommet_courant.getId()].marque=true;
 	        	notifyNodeMarked(x.sommet_courant);
+	        	//System.out.print(x.cout + "\n");
 	        	if (tab_label[data.getDestination().getId()].marque==true) {
 	        		Trouve=true;
 	        	}
 	        	for(Arc arc : tab_label[x.sommet_courant.getId()].sommet_courant.getSuccessors()) {
+	        		//nb_succ=nb_succ+1;
 	        		if(data.isAllowed(arc)) {
 	        			notifyNodeReached(arc.getDestination());
 		        		if(!tab_label[arc.getDestination().getId()].marque) {
@@ -66,6 +68,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 		        		}
 	        		}
 	        	}
+	        	//System.out.print(nb_succ + "\n");
+	        	//nb_succ=0;
 	    }
         // Create the final solution.
 	 
