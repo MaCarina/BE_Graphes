@@ -4,7 +4,7 @@ import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Node;
 
 public class Label implements Comparable<Label>{
-	
+
 	public Node sommet_courant;
 	
 	public boolean marque;
@@ -50,4 +50,6 @@ public class Label implements Comparable<Label>{
 	public float getTotalCost() {
 		return this.cout;
 	}
+	
+	public static Label tab_label[];
 }
