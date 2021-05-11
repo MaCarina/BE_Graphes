@@ -40,11 +40,14 @@ public class Label implements Comparable<Label>{
     }
 	
 	public int compareTo(Label other) {
-        return Float.compare(cout, other.cout);
+        return Float.compare(this.getTotalCost(), other.getTotalCost());
     }
 	
 	public Arc getPere() {
 		return this.arc_pere;
 	}
 
+	public float getTotalCost() {
+		return this.cout;
+	}
 }

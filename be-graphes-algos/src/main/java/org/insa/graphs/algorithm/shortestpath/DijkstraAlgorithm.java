@@ -9,17 +9,26 @@ import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
 
-public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+public class DijkstraAlgorithm extends ShortestPathAlgorithm{
+	
+	ShortestPathData data;
+	Label[] tab_label=new Label[data.getGraph().size()];
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+    }
+    
+    public void insert(BinaryHeap<Label> Tas,Node node,boolean marque,float cout,Arc arc_pere) {
+    	Label lab = new Label(node,marque,cout,arc_pere);
+    	Tas.insert(lab);
+    	tab_label[node.getId()]=lab;
     }
 
     @Override
     protected ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
-        Label[] tab_label=new Label[data.getGraph().size()];
+        //Label[] tab_label=new Label[data.getGraph().size()];
         BinaryHeap<Label> Tas=new BinaryHeap<Label>();
      
         // Notify observers about the first event (origin processed).
@@ -31,12 +40,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //initialisation
         for(Node node : data.getGraph().getNodes()) {
         	tab_label[node.getId()]=new Label(node,false,Float.MAX_VALUE,null);
+        	insert(Tas,node,tab_label[node.getId()].marque,tab_label[node.getId()].cout,tab_label[node.getId()].arc_pere);
         }
         Label Origin = tab_label[data.getOrigin().getId()];
         Origin.setCost(0);
         tab_label[data.getOrigin().getId()].cout=0;
         Label x;
-        Tas.insert(Origin);
+        //Tas.insert(Origin);
         boolean Trouve=false;        
         //récupérer ce qu'on veut avec : data.getDestination()
         //int nb_succ = 0;
@@ -62,7 +72,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 			        				Tas.remove(tab_label[arc.getDestination().getId()]);
 			        			}
 			        			tab_label[arc.getDestination().getId()].cout = tab_label[x.sommet_courant.getId()].cout+arc.getLength();
-			        			Tas.insert(tab_label[arc.getDestination().getId()]);
+			        			//Tas.insert(tab_label[arc.getDestination().getId()]);
+			        			insert(Tas,tab_label[arc.getDestination().getId()].sommet_courant,tab_label[arc.getDestination().getId()].marque,tab_label[arc.getDestination().getId()].cout,tab_label[arc.getDestination().getId()].arc_pere);
 			        			predecessorArcs[arc.getDestination().getId()] = arc;
 		        			}
 		        		}
