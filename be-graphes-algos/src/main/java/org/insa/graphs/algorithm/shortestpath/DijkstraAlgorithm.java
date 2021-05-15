@@ -55,6 +55,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm{
 	        	x=Tas.deleteMin();
 	        	Label.tab_label[x.sommet_courant.getId()].marque=true;
 	        	notifyNodeMarked(x.sommet_courant);
+	        	//System.out.print(Tas.isValid());
 	        	//System.out.print(x.cout + "\n");
 	        	if (Label.tab_label[data.getDestination().getId()].marque==true) {
 	        		Trouve=true;
@@ -70,6 +71,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm{
 			        				//Update(y,Tas)
 			        				Tas.remove(Label.tab_label[arc.getDestination().getId()]);
 			        			}
+			        			//System.out.print(arc.getDestination().getNumberOfSuccessors() + " ");
 			        			Label.tab_label[arc.getDestination().getId()].cout = Label.tab_label[x.sommet_courant.getId()].cout+arc.getLength();
 			        			//Tas.insert(Label.tab_label[arc.getDestination().getId()]);
 			        			insert(Tas,arc.getDestination(),Label.tab_label[arc.getDestination().getId()].marque,Label.tab_label[arc.getDestination().getId()].cout,Label.tab_label[arc.getDestination().getId()].arc_pere,(float)arc.getDestination().getPoint().distanceTo(data.getDestination().getPoint()));
@@ -78,7 +80,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm{
 		        		}
 	        		}
 	        	}
-	        	//System.out.print(nb_succ + "\n");
+	        	//System.out.print(nb_succ +"\n");
 	        	//nb_succ=0;
 	    }
         // Create the final solution.
