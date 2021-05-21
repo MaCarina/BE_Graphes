@@ -11,8 +11,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         super(data);
     }
 
-	@Override
-    protected void insert(BinaryHeap<Label> Tas,Node node,boolean marque,float cout,Arc arc_pere,float val_estime) {
+    public void insert(BinaryHeap<Label> Tas,Node node,boolean marque,float cout,Arc arc_pere,float val_estime) {
     	LabelStar lab = new LabelStar(node,marque,cout,arc_pere,val_estime);
     	Tas.insert(lab);
     	Label.tab_label[node.getId()]=lab;

@@ -15,14 +15,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm{
         super(data);
     }
     
-    protected void insert(BinaryHeap<Label> Tas,Node node,boolean marque,float cout,Arc arc_pere, float val_estime) {
+    public void insert(BinaryHeap<Label> Tas,Node node,boolean marque,float cout,Arc arc_pere, float val_estime) {
     	Label lab = new Label(node,marque,cout,arc_pere);
     	Tas.insert(lab);
     	Label.tab_label[node.getId()]=lab;
     }
 
-    @Override
-    protected ShortestPathSolution doRun() {
+    public ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
         Label.tab_label=new Label[data.getGraph().size()];
@@ -87,7 +86,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm{
         // Create the final solution.
 	 
 	    // Destination has no predecessor, the solution is infeasible...
-        if (predecessorArcs[data.getDestination().getId()] == null) {
+        if (Trouve==false) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
         else {
@@ -104,9 +103,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm{
             
             // Reverse the path...
             Collections.reverse(arcs);
-
-            // Create the final solution.
-            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(data.getGraph(), arcs));
+            
+            if(arcs.size()==0) {
+            	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(data.getGraph(), data.getOrigin()));
+            }
+            else {
+	            // Create the final solution.
+	            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(data.getGraph(), arcs));
+            }
         }
         
 	    return solution;
