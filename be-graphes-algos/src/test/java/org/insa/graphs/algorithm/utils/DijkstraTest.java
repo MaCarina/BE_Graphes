@@ -1,4 +1,4 @@
-package org.insa.graphs.algorithm.shortestpath;
+package org.insa.graphs.algorithm.utils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,6 +19,7 @@ import org.insa.graphs.algorithm.shortestpath.BellmanFordAlgorithm;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathData;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathSolution;
 import org.insa.graphs.algorithm.AbstractInputData.Mode;
+import org.insa.graphs.model.io.BinaryGraphReader;
 import org.insa.graphs.model.io.GraphReader;
 
 public class DijkstraTest {
@@ -86,24 +87,28 @@ public class DijkstraTest {
 	}
 	*/
 	
-	public void testComparaisonBellman() {
+	public void testComparaisonBellman(String nom_carte) {
 		
-		GraphReader reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(nom_carte))));
+		BinaryGraphReader reader = new BinaryGraphReader(new DataInputStream());
     	Graph graph = reader.read();
     	
     	int origine;
     	int destination;
-    	final ShortestPathData Data = getInputData();
+    	final ShortestPathData Data = graph.getInputData();
         DijkstraAlgorithm d = new DijkstraAlgorithm(Data);
         BellmanFordAlgorithm b = new BellmanFordAlgorithm(Data);
         ShortestPathSolution sd = d.doRun();
         ShortestPathSolution sb = b.doRun();
         
-        if (sd.compareTo(sb)==true) {
-        	System.out.print("D et B donnent le même résultat \n");
-        }
-        else {
-        	System.out.print("D et B ne donnent pas le même résultat \n");
+        for (int i=0;i<;i++) {
+	        if (sd.compareTo(sb)==true) {
+	        	assertEquals();
+	        	System.out.print("D et B donnent le même résultat \n");
+	        }
+	        else {
+	        	assertEquals();
+	        	System.out.print("D et B ne donnent pas le même résultat \n");
+	        }
         }
 	}
 	

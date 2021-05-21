@@ -219,7 +219,18 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     }
     
     public boolean isValid() {
-    	return isValid();
+    	if (this.isEmpty() || (this.size()==1)) {
+        	return true;
+        }
+    	else {
+	        for (int i=0; i<this.currentSize;i++) {
+	        	E x = this.array.get(i);
+	        	if (x.compareTo(this.array.get(indexParent(i)))<0) {
+	            	return false;
+	            }
+	    	}
+        return true;
+    	}
     }
 
 }

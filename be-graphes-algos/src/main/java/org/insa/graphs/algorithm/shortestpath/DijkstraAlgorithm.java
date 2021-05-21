@@ -57,6 +57,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm{
 	        	notifyNodeMarked(x.sommet_courant);
 	        	//System.out.print(Tas.isValid());
 	        	//System.out.print(x.cout + "\n");
+	        	//System.out.println(Tas.isValid());
 	        	if (Label.tab_label[data.getDestination().getId()].marque==true) {
 	        		Trouve=true;
 	        	}
