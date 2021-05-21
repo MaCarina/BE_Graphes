@@ -83,4 +83,21 @@ public class DijkstraTest1 {
         ShortestPathSolution sd = d.doRun();
     	assertEquals(sd.getStatus(),AbstractSolution.Status.INFEASIBLE);
     }
+    
+    @Test
+    public void testBigPath() throws Exception{
+    	
+    	String nom_carte = "C:/Users/Carin/BE_Graphes/Maps/midi-pyrenees.mapgr";
+		BinaryGraphReader reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(nom_carte))));
+    	Graph graph = reader.read();
+    	
+    	Node origine = graph.getNodes().get(105411);
+    	Node destination = graph.getNodes().get(157779);
+    	ShortestPathData Data = new ShortestPathData(graph,origine,destination,ArcInspectorFactory.getAllFilters().get(0));
+        DijkstraAlgorithm d = new DijkstraAlgorithm(Data);
+        ShortestPathSolution sd = d.doRun();
+        BellmanFordAlgorithm b = new BellmanFordAlgorithm(Data);
+        ShortestPathSolution sb = b.doRun();
+	    assertTrue(Math.abs(sb.getPath().getLength()-sd.getPath().getLength())<0.01);
+    }
 }
