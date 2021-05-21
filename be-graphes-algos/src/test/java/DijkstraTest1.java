@@ -69,5 +69,18 @@ public class DijkstraTest1 {
 	    assertTrue(Math.abs(sb.getPath().getLength()-sd.getPath().getLength())<0.01);
     }
 
-    //test si graphe est pas connexe
+    @Test
+    public void testConnexite() throws Exception{
+    	
+    	String nom_carte = "C:/Users/Carin/BE_Graphes/Maps/french-polynesia.mapgr";
+		BinaryGraphReader reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(nom_carte))));
+    	Graph graph = reader.read();
+    	
+    	Node origine = graph.getNodes().get(6564);
+    	Node destination = graph.getNodes().get(3638);
+    	ShortestPathData Data = new ShortestPathData(graph,origine,destination,ArcInspectorFactory.getAllFilters().get(0));
+        DijkstraAlgorithm d = new DijkstraAlgorithm(Data);
+        ShortestPathSolution sd = d.doRun();
+    	assertEquals(sd.getStatus(),AbstractSolution.Status.INFEASIBLE);
+    }
 }
